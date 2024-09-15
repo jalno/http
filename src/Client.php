@@ -109,7 +109,7 @@ class Client implements IHandler
     protected function mergeOptions(array $options): array
     {
         $options = array_replace($this->options, $options);
-        if ($options['auth']) {
+        if (isset($options['auth']) and $options['auth']) {
             if (!isset($options['headers']['authorization'])) {
                 if (is_array($options['auth'])) {
                     $options['headers']['authorization'] = 'Basic '.base64_encode($options['auth']['username'].':'.$options['auth']['password']);
@@ -118,19 +118,19 @@ class Client implements IHandler
                 }
             }
         }
-        if ($options['json']) {
+        if (isset($options['json']) and $options['json']) {
             $options['headers']['content-type'] = 'application/json; charset=UTF-8';
             if (!$options['body']) {
                 $options['body'] = json_encode($options['json'], JSON_UNESCAPED_UNICODE);
             }
         }
-        if ($options['form_params']) {
+        if (isset($options['form_params']) and $options['form_params']) {
             $options['headers']['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
             if (!$options['body']) {
                 $options['body'] = http_build_query($options['form_params']);
             }
         }
-        if ($options['multipart']) {
+        if (isset($options['multipart']) and $options['multipart']) {
             $options['headers']['content-type'] = 'multipart/form-data; charset=UTF-8';
             if (!$options['body']) {
                 $options['body'] = $options['multipart'];
